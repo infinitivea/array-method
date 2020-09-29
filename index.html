@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Event</title>
+  </head>
+  <body>
+    <!-- (2) <button onclick="this.hidden = true">Click to hide me</button> -->
+    <button name="name-click" id="btnClick" onclick="clickHandler()">
+      Hide
+    </button>
+    <p id="text">Text</p>
+
+    <div>
+      <label for="">Province</label>
+      <select id="province" onclick="getDistrict()">
+        <option value="bangkok">Bangkok</option>
+        <option value="nonthaburi">Nonthaburi</option>
+      </select>
+    </div>
+    <div>
+      <label for="">District</label>
+      <select id="district">
+        <option value="ratchathewi">Ratchathewi</option>
+        <option value="patumwan">Patumwan</option>
+      </select>
+    </div>
+
+    <div style="padding-top: 10px">
+      <button id="increaseBtn" onclick="counterCount(event)">+</button>
+      <button id="decreaseBtn" onclick="counterCount(event)">-</button>
+      <button id="resetBtn" onclick="counterCount(event)">Reset</button>
+      <div style="line-height: 0">
+        <p id="number">0</p>
+      </div>
+    </div>
+
+    <div>
+      <button id="addTodoList" onclick="addTodoList(event)">Add</button>
+      <div id="todoDiv"><ul id="todoList"></ul></div>
+    </div>
+    <!-- <form action="">
+      <label for="">Age : </label><input type="text" id="age" />
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+    </form> -->
+  </body>
+  <script>
+    function clickHandler() {
+      const btn = document.getElementById("btnClick");
+      const p = document.getElementById("text");
+      // 1
+      // p.hidden = true;
+
+      // 2
+      // btn.hidden = true;
+
+      // 3
+      if (btn.innerHTML === "Hide") {
+        btn.innerHTML = "Show";
+        p.hidden = true;
+      } else {
+        btn.innerHTML = "Hide";
+        p.hidden = false;
+      }
+    }
+
+    // 4
+    function getDistrict() {
+      const selectProvince = document.getElementById("province");
+      const selectDistrict = document.getElementById("district");
+      if (selectProvince.options[1].selected === true) {
+        selectDistrict.options[0].innerHTML = "Muang";
+        selectDistrict.options[1].innerHTML = "Pakgret";
+      }
+    }
+
+    // 5
+    function counterCount(event) {
+      if (event.target.id === "increaseBtn") {
+        number.innerHTML = Number(number.innerHTML) + 1;
+      } else if (event.target.id === "decreaseBtn") {
+        number.innerHTML = Number(number.innerHTML) - 1;
+      } else if (event.target.id === "resetBtn") {
+        number.innerHTML = 0;
+      }
+    }
+
+    // 6
+    let cnt = 1;
+    function addTodoList(event) {
+      let length = document.querySelectorAll("#todoList li").length;
+      console.log(
+        "length = " + document.querySelectorAll("#todoList li").length
+      );
+      let li = `<li id="li${cnt}" onclick="clickTodo(event)">To do ${cnt}</li>
+      <button id="edit${cnt}" onclick="editTodo(event)">edit</button>
+      <button id="del${cnt}" onclick="delTodo(event)">Del</button>`;
+      document.getElementById("todoList").insertAdjacentHTML("beforeend", li);
+      cnt++;
+    }
+    // clickTodo
+    function clickTodo(event) {
+      for (let i = 0; i < cnt; i++) {
+        if (event.target.id === `li${i}`) {
+          document.getElementById(`li${i}`).style.textDecoration =
+            "line-through";
+        }
+      }
+    }
+    // editButton
+    function editTodo(event) {
+      for (let i = 0; i < cnt; i++) {
+        if (event.target.id === `edit${i}`) {
+          document.getElementById(`li${i}`).innerHTML = prompt("Edit Todo");
+        }
+      }
+    }
+    // deleteButton
+    function delTodo(event) {
+      for (let i = 0; i < cnt; i++) {
+        if (event.target.id === `del${i}`) {
+          document.getElementById(`li${i}`).remove();
+          document.getElementById(`edit${i}`).remove();
+          document.getElementById(`del${i}`).remove();
+        }
+      }
+    }
+
+    /* const btnClick = document.getElementById("btnClick");
+    // JS มอง anonymous function เป็นคนละตัวกัน เช่น (1), (2)
+    // -- (1 addEvent) --
+    btnClick.addEventListener("click", () => alert("Clicked"));
+    // -- (2 removeEvent) --
+    btnClick.removeEventListener("click", () => alert("Clicked")); */
+  </script>
+</html>
